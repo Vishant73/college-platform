@@ -2,16 +2,17 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const savedRoutes = require("./routes/saved");
-
 require("dotenv").config();
-
 
 const collegeRoutes = require("./routes/colleges");
 const authRoutes = require("./routes/auth");
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: ["http://localhost:5173", "https://college-platform-tau.vercel.app"],
+  credentials: true
+}));
 app.use(express.json());
 app.use("/api/colleges", collegeRoutes);
 app.use("/api/auth", authRoutes);
