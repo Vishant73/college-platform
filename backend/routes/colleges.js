@@ -2,10 +2,32 @@ const express = require("express");
 const router = express.Router();
 const College = require("../models/College");
 
-// GET all colleges
+// GET all colleges with server-side search and filter
 router.get("/", async (req, res) => {
   try {
-    const colleges = await College.find();
+    const { search, location, fees, course } = req.query;
+
+    let query = {};
+
+    if (search) {
+      query.name = { $regex: search, $options: "i" };
+    }
+
+    if (location) {
+      query.location = { $regex: location, $options: "i" };
+    }
+
+    if (course) {
+      query.courses = { $regex: course, $options: "i" };
+    }
+
+    if (fees) {
+      if (fees === "low") query.fees = { $lte: 100000 };
+      if (fees === "medium") query.fees = { $gt: 100000, $lte: 250000 };
+      if (fees === "high") query.fees = { $gt: 250000 };
+    }
+
+    const colleges = await College.find(query);
     res.json(colleges);
   } catch (err) {
     res.status(500).json({ message: "Server error" });
@@ -16,6 +38,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const college = await College.findById(req.params.id);
+    if (!college) return res.status(404).json({ message: "College not found" });
     res.json(college);
   } catch (err) {
     res.status(500).json({ message: "Server error" });
