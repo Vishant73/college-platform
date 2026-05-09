@@ -15,13 +15,14 @@ function Home() {
   const navigate = useNavigate();
 
   // fetch all locations once on mount
-  useEffect(() => {
-    axios.get("http://localhost:5000/api/colleges")
-      .then((res) => {
-        const locs = [...new Set(res.data.map((c) => c.location))];
-        setAllLocations(locs);
-      });
-  }, []);
+  // fetch all locations once on mount
+useEffect(() => {
+  axios.get(`${import.meta.env.VITE_API_URL}/api/colleges`)
+    .then((res) => {
+      const locs = [...new Set(res.data.map((c) => c.location))];
+      setAllLocations(locs);
+    });
+}, []);
 
   // fetch colleges whenever filters change
   useEffect(() => {
