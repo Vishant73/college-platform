@@ -32,7 +32,7 @@ function Home() {
     if (fees) params.fees = fees;
     if (course) params.course = course;
 
-    axios.get("http://localhost:5000/api/colleges", { params })
+    axios.get(`${import.meta.env.VITE_API_URL}/api/colleges`, { params })
       .then((res) => {
         setColleges(res.data);
         setLoading(false);

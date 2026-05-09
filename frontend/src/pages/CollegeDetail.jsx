@@ -10,7 +10,7 @@ function CollegeDetail() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/colleges/${id}`)
+    axios.get(`${import.meta.env.VITE_API_URL}/api/colleges/${id}`)
       .then((res) => {
         setCollege(res.data);
         setLoading(false);

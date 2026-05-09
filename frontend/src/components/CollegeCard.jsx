@@ -13,7 +13,7 @@ function CollegeCard({ college, onCompare, isSelected }) {
       return;
     }
     try {
-      await axios.post("http://localhost:5000/api/saved", {
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/saved`, {
         userId: user.id,
         collegeId: college._id,
         collegeName: college.name,

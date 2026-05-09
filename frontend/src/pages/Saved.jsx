@@ -13,7 +13,7 @@ function Saved() {
       navigate("/login");
       return;
     }
-    axios.get(`http://localhost:5000/api/saved/${user.id}`)
+    axios.get(`${import.meta.env.VITE_API_URL}/api/saved/${user.id}`)
       .then((res) => {
         setSaved(res.data);
         setLoading(false);
@@ -26,7 +26,8 @@ function Saved() {
 
   const handleRemove = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/saved/${id}`);
+     axios.delete(`${import.meta.env.VITE_API_URL}/api/saved/${id}`)
+
       setSaved(saved.filter((s) => s._id !== id));
     } catch (err) {
       alert("Something went wrong");
